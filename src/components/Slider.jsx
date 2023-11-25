@@ -1,18 +1,27 @@
 import React, { useState } from "react";
-import firstImage from "../assets/firstImage.png";
-import secondImage from "../assets/secondImage.png";
 
 const Slider = () => {
-  const [showImage, setShowImage] = useState(false);
+  const images = [
+    { url: "src/assets/firstImage.png" },
+    { url: "src/assets/secondImage.png" },
+  ];
+
+  const [current, setCurrent] = useState(0);
+
+  setTimeout(() => {
+    if (current === 0) {
+      setCurrent(1);
+    } else {
+      setCurrent(0);
+    }
+  }, 5000);
+
   return (
     <div className=" lg:w-1/2 w-full lg:min-h-[100vh] min-h-[30vh] absolute top-0 right-0">
-      <div className=" h-[100vh] w-auto ">
-        <img
-          src={showImage ? firstImage  : secondImage }
-          alt=""
-          className=" h-full w-full "
-        />
-      </div>
+      <div
+        className=" h-[100vh] transition-all duration-1000"
+        style={{ backgroundImage: `url(${images[current].url})`, backgroundSize: 'cover'}}
+      ></div>
 
       {/* text content */}
       <div className=" absolute top-[390px] left-20">
@@ -25,14 +34,13 @@ const Slider = () => {
             industry.
           </p>
           <div className=" flex items-center gap-3">
-            <div
-              onClick={() => setShowImage(!showImage)}
-              className=" w-[8px] h-[8px] bg-[#FEE7DE] rounded-full cursor-pointer"
-            ></div>
-            <div
-              onClick={() => setShowImage(!showImage)}
-              className=" w-[8px] h-[8px] bg-[#FEE7DE] rounded-full cursor-pointer"
-            ></div>
+            {images.map((dot, index) => (
+              <div
+                key={index}
+                onClick={() => setCurrent(index)}
+                className={` transition-all duration-1000 w-[15px] h-[15px] bg-[#FEE7DE] rounded-full cursor-pointer ${index === current && 'opacity-50'}`}
+              ></div>
+            ))}
           </div>
         </div>
       </div>
